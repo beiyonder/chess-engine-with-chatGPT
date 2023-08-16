@@ -21,11 +21,16 @@ class GameState():
         ]
 
         self.whiteToMove = True
-
         self.moveLog = [] #stores the moves 
-    def whoseTurn(self):
-        '''prints white or black depending on who's turn it is currently'''
-        return "w" if self.whiteToMove else "b"
+    
+    def generateCurrentBoardState(self):
+        # Convert the board to FEN notation or any other suitable representation for chatGPT to process the current game state
+        currentBoardState = "\n".join("".join(row) for row in self.board)
+        return currentBoardState
+
+    def generatePreviousMoves(self):
+        previousMoves = "".join(move.getcoordinates() for move in self.moveLog)
+        return previousMoves
 
     def makeMove(self, move):
         """This won't work for complex moves like casting, en-passant and pawn promotion"""

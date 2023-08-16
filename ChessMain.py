@@ -4,6 +4,9 @@ It contains code to run all other modules and functions in this project.
 """
 import pygame as p
 import ChessEngine
+import openai 
+
+# openai.api_key = "API_KEY_ to add here"
 
 WIDTH = HEIGHT = 512
 DIMENSION = 8
@@ -12,6 +15,15 @@ MAX_FPS = 15
 IMAGES = {}
 #Loading images is expensive. I should load it only once and use them afterwards
 
+#-------------------------GPT --------------------------------------
+# def generate_gpt_response(context):
+#     response = openai.Completion.create(
+#         engine="davinci",
+#         prompt=context,
+#         max_tokens=50  # You can adjust the response length as needed
+#     )
+#     return response.choices[0].text.strip()
+#----------------------------------------------------------------------
 def loadImages():
     pieces = ['wP', 'wR', 'wB', 'wN', 'wQ', 'wK', 'bP', 'bR', 'bB', 'bN', 'bQ', 'bK']
     for piece in pieces:
@@ -84,12 +96,31 @@ def main():
                     
         if moveMade:
             validMoves = gs.getValidMoves()   
-            moveMade = False                 
+            moveMade = False
+#------------------------------GPT stuff -------------------------------------------------------------
+        # current_board_state = gs.generateCurrentBoardState()
+        # previous_moves = gs.generatePreviousMoves()
 
+        # Create a context for GPT
+        # context = f"Player is about to make a move. Here's the current state of the game:\n\n{current_board_state}\n\nMoves played: {previous_moves}\n\nWhat move do you suggest?"
+
+        # Generate GPT response based on the game state
+        # gpt_response = generate_gpt_response(context)
+
+        # Draw game state and GPT response
+        # drawGameState(screen, gs)
+        # drawGPTResponse(screen, gpt_response)
+#--------------------------------------------------------------------------------------------
         drawGameState(screen, gs)
         clock.tick(MAX_FPS)
         p.display.flip()
-
+#--------------------------------GpT---------------------------------------
+def drawGPTResponse(screen, response_text):
+    font = p.font.Font(None, 18)
+    text = font.render(response_text, True, (0, 0, 0))
+    text_rect = text.get_rect(topleft=(10, HEIGHT + 10))
+    screen.blit(text, text_rect)
+#-------------------------------------------------------------------------
 def drawGameState(screen, gs):
     """Draw/display graphics within the current game
     """
